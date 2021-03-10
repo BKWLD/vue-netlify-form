@@ -12,6 +12,7 @@ This component was created to simplify submission to [Netlify Forms](https://doc
 
 ```vue
 <template>
+
   <netlify-form name='Contact' :form='form'>
     <template #default='{readonly, submitting, submitted}'>
     
@@ -29,6 +30,7 @@ This component was created to simplify submission to [Netlify Forms](https://doc
       
     </template>
   </netlify-form>
+  
 </template>
 
 <script>
