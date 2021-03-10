@@ -62,7 +62,7 @@ If you're going to use the `endpoint` prop to submit to your production endpoint
 
 ```
 /
-	Access-Control-Allow-Origin: http://localhost:3000
-	Access-Control-Allow-Methods: POST
-	Access-Control-Allow-Headers: content-type
+  Access-Control-Allow-Origin: http://localhost:3000
+  Access-Control-Allow-Methods: POST
+  Access-Control-Allow-Headers: content-type
 ```
