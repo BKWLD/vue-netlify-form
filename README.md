@@ -52,7 +52,7 @@ export default {
 | ---- | ------- | ----------- |
 | `name` | _required_ | The name of the form.  This will be how the form shows up within the Netlify Forms dashboard |
 | `form` | _required_ | The form data as key/value pairs.  This is what your form fields are updating on input.  You may want to title case the keys as these are what are displayed within the Netlify Forms dashboard |
-| `endpoint` | `/` | Where the form should submit to.  On production, the form should POST to the root of your site.  While dev-ing locally, you may want to pass the hostname of your Netlify app here so you can post to it from your localhost. |
+| `endpoint` | `process.env.FORM_ENDPOINT || '/'` | Where the form should submit to.  On production, the form should POST to the root of your site.  While dev-ing locally, you may want to pass the hostname of your Netlify app here so you can post to it from your localhost. |
 
 ## Notes
 
