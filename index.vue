@@ -2,7 +2,7 @@
 
 <template lang='pug'>
 
-form.form-netlify(
+form.netlify-form(
 	data-netlify
 	:name='name'
 	@submit.prevent='onSubmit')

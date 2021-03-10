@@ -392,7 +392,7 @@ var render = function() {
   return _c(
     "form",
     {
-      staticClass: "form-netlify",
+      staticClass: "netlify-form",
       attrs: { "data-netlify": "", name: _vm.name },
       on: {
         submit: function($event) {

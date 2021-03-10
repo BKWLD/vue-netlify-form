@@ -15,22 +15,22 @@ This component was created to simplify submission to [Netlify Forms](https://doc
 
   <netlify-form name='Contact' :form='form'>
     <template #default='{readonly, submitting, submitted}'>
-    
+
       <p v-if='submitted'>Thanks for your submission</p>
-      
-      <input 
-        name='Email' 
-        placeholder='Email' 
-        v-model='form.Email' 
+
+      <input
+        name='Email'
+        placeholder='Email'
+        v-model='form.Email'
         :readonly='readonly'>
-      
+
       <button>
         {{ submitting ? 'Submitting' : 'Submit' }}
       </button>
-      
+
     </template>
   </netlify-form>
-  
+
 </template>
 
 <script>
