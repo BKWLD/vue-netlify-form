@@ -34,6 +34,7 @@ This component was created to simplify submission to [Netlify Forms](https://doc
 </template>
 
 <script>
+
 export default {
   data: function() {
     form: {
@@ -41,6 +42,7 @@ export default {
     }
   }
 }
+
 </script>
 ```
 
