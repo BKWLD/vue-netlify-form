@@ -6,7 +6,7 @@ This component was created to simplify submission to [Netlify Forms](https://doc
 
 - Validates presence of form and field names.  Form name is a required prop.  The presence of field names is validated during development (by checking `NODE_ENV != "production`) and emits a console warning like `Missing Netlify form field named: Email` if a form field lacks a name.
 - Submits form data to Netlify using [@nuxt/axios](https://axios.nuxtjs.org/).
-- Passes form lifecycle state through scroped slots.
+- Passes form lifecycle state through scoped slots.
 
 ## Usage
 
