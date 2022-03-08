@@ -11,6 +11,7 @@ form.netlify-form(
 	slot(
 		:readonly='readonly'
 		:submitting='submitting'
+		:reset='reset'
 		:submitted='submitted')
 
 </template>
@@ -77,5 +78,10 @@ export default
 			url: @endpoint
 			data: new URLSearchParams(@formData).toString()
 			headers: 'content-type': 'application/x-www-form-urlencoded'
+
+		# Reset form data back to initial state
+		reset: ->
+			@submitting = false
+			@submitted = false
 
 </script>

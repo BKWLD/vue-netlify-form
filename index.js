@@ -181,6 +181,11 @@ module.exports =
           'content-type': 'application/x-www-form-urlencoded'
         }
       });
+    },
+    // Reset form data back to initial state
+    reset: function () {
+      this.submitting = false;
+      return this.submitted = false;
     }
   }
 });
@@ -405,6 +410,7 @@ var render = function() {
       _vm._t("default", null, {
         readonly: _vm.readonly,
         submitting: _vm.submitting,
+        reset: _vm.reset,
         submitted: _vm.submitted
       })
     ],
