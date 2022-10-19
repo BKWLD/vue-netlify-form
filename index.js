@@ -108,17 +108,19 @@ module.exports =
       default: function () {
         return process.env.NETLIFY_FORMS_ENDPOINT || '/';
       }
+    },
+    // Support recaptcha
+    recaptcha: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
     return {
       submitting: false,
-      submitted: false
+      submitted: false,
+      recaptchaError: false
     };
-  },
-  // Check for valid input config when dev-ing
-  mounted: function () {
-    if (false) {}
   },
   computed: {
     // Should fields be readonly
@@ -130,7 +132,15 @@ module.exports =
       return { ...this.form,
         'form-name': this.name
       };
+    },
+    // The computed recaptcha field value
+    classes: function () {
+      return [this.recaptchaError ? "recaptcha-error" : void 0, this.submitted ? "submitted" : void 0];
     }
+  },
+  // Check for valid input config when dev-ing
+  mounted: function () {
+    if (false) {}
   },
   methods: {
     // Check for named inputs for each form field like Netlify expects
@@ -153,30 +163,52 @@ module.exports =
     },
     // Submit to service
     onSubmit: async function () {
-      var e;
+      var e, ref, token;
 
       if (this.readonly) {
         return;
       }
 
-      this.submitting = true;
+      this.submitting = true; // Fetch recaptcha token
 
-      try {
-        await this.postToEndpoint();
-      } catch (error) {
-        e = error;
-        return this.submitting = false;
+      if (this.recaptcha) {
+        try {
+          token = await ((ref = this.$recaptcha) != null ? ref.getResponse() : void 0);
+          this.recaptchaError = false;
+        } catch (error) {
+          e = error; // set recaptcha error and abort
+
+          this.submitting = false;
+          this.recaptchaError = true;
+          this.$emit('error', "Recaptcha");
+          return;
+        }
       }
 
-      this.submitting = false;
-      return this.submitted = true;
+      try {
+        // Send form data to netlify
+        await this.postToEndpoint(token);
+        this.submitting = false;
+        this.submitted = true;
+        return this.$emit('error', false);
+      } catch (error) {
+        e = error;
+        this.$emit('error', true);
+        return this.submitting = false;
+      }
     },
     // Do the actual post
-    postToEndpoint: function () {
+    postToEndpoint: function (recaptchaToken) {
+      var data;
+      data = new URLSearchParams({ ...this.formData,
+        "g-recaptcha-response": recaptchaToken
+      }).toString();
       return this.$axios({
         method: 'post',
         url: this.endpoint,
-        data: new URLSearchParams(this.formData).toString(),
+        data: new URLSearchParams({ ...this.formData,
+          "g-recaptcha-response": recaptchaToken
+        }).toString(),
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         }
@@ -398,7 +430,12 @@ var render = function() {
     "form",
     {
       staticClass: "netlify-form",
-      attrs: { "data-netlify": "", name: _vm.name },
+      class: _vm.classes,
+      attrs: {
+        "data-netlify": "",
+        name: _vm.name,
+        "data-netlify-recaptcha": _vm.recaptcha
+      },
       on: {
         submit: function($event) {
           $event.preventDefault()
